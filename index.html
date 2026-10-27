@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BlockIQ Academy — Cryptocurrency Fundamentals</title>
+<meta name="description" content="BlockIQ Academy — A clear, jargon-free introduction to cryptocurrency, blockchain, XRPL, and Flare Network. Built for complete beginners. Free course by Kenny Robinson.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0A0E1A;
+    --navy-mid: #111827;
+    --indigo: #1A2040;
+    --teal: #00C9B1;
+    --teal-dim: #00A896;
+    --teal-glow: rgba(0,201,177,0.12);
+    --white: #F0F4FF;
+    --muted: #8A93B2;
+    --border: rgba(255,255,255,0.07);
+    --font-head: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 5%;
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--teal);
+    letter-spacing: -0.01em;
+  }
+
+  .nav-cta {
+    background: var(--teal);
+    color: var(--navy);
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.55rem 1.25rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--teal-dim); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 640px;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--teal);
+    border: 1px solid rgba(0,201,177,0.3);
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    margin-bottom: 1.75rem;
+    letter-spacing: 0.02em;
+  }
+
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+  }
+
+  .hero h1 span {
+    color: var(--teal);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--teal);
+    color: var(--navy);
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--teal-dim); transform: translateY(-1px); }
+
+  .btn-ghost {
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--white); }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .stat-item {}
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* CANVAS — blockchain animation */
+  #hero-canvas {
+    position: absolute;
+    top: 0; right: 0;
+    width: 55%;
+    height: 100%;
+    opacity: 0.6;
+  }
+
+  /* TRUST BAR */
+  .trust-bar {
+    background: var(--indigo);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem 5%;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .trust-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .trust-items {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .trust-item {
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(240,244,255,0.5);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .trust-item svg { opacity: 0.4; }
+
+  /* SECTIONS */
+  section { padding: 100px 5%; }
+
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+
+  .section-head {
+    margin-bottom: 3.5rem;
+  }
+
+  .section-head h2 {
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-head p {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 500px;
+    line-height: 1.7;
+  }
+
+  /* FOR WHO */
+  .for-who { background: var(--navy-mid); }
+
+  .who-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .who-card {
+    background: var(--indigo);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+  }
+
+  .who-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--teal-glow);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.1rem;
+    font-size: 1.3rem;
+  }
+
+  .who-card h3 {
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .who-card p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* CURRICULUM */
+  .curriculum { background: var(--navy); }
+
+  .modules {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .module-item {
+    background: var(--navy-mid);
+    padding: 0;
+  }
+
+  .module-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem 2rem;
+    cursor: pointer;
+  }
+
+  .module-num {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--teal);
+    background: var(--teal-glow);
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .module-title {
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .module-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .module-lessons {
+    padding: 0 2rem 1.5rem 4.5rem;
+    display: none;
+  }
+
+  .module-item.open .module-lessons { display: block; }
+
+  .lesson-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .lesson-list li {
+    font-size: 0.875rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .lesson-list li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--teal);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  /* WHAT YOU LEARN */
+  .outcomes { background: var(--navy-mid); }
+
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .outcome-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .outcome-check {
+    width: 22px;
+    height: 22px;
+    background: var(--teal-glow);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .outcome-check svg { width: 12px; height: 12px; }
+
+  .outcome-item p {
+    font-size: 0.9rem;
+    color: rgba(240,244,255,0.75);
+    line-height: 1.55;
+  }
+
+  /* INSTRUCTOR */
+  .instructor { background: var(--navy); }
+
+  .instructor-inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3rem;
+    align-items: start;
+    max-width: 800px;
+  }
+
+  .instructor-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--teal-glow), var(--indigo));
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    flex-shrink: 0;
+  }
+
+  .instructor-name {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+
+  .instructor-title {
+    font-size: 0.85rem;
+    color: var(--teal);
+    margin-bottom: 1.25rem;
+  }
+
+  .instructor-bio {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 560px;
+  }
+
+  /* CTA SECTION */
+  .cta-section {
+    background: var(--indigo);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 100px 5%;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    font-family: var(--font-head);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-section p {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  .price-display {
+    margin-bottom: 2rem;
+  }
+
+  .price-amount {
+    font-family: var(--font-head);
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .price-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.4rem;
+  }
+
+  .cta-guarantee {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 5%;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer p {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .footer-logo {
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--teal);
+  }
+
+  /* NEWSLETTER */
+  .newsletter {
+    background: var(--navy);
+    padding: 100px 5%;
+    border-top: 1px solid var(--border);
+  }
+
+  .newsletter-inner {
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .newsletter-inner h2 {
+    font-family: var(--font-head);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .newsletter-inner p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 460px;
+  }
+
+  .newsletter-perks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+
+  .perk {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: rgba(240,244,255,0.7);
+  }
+
+  .perk-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .form-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-field label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.01em;
+  }
+
+  .form-field input {
+    background: var(--indigo);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .form-field input::placeholder { color: rgba(138,147,178,0.5); }
+
+  .form-field input:focus {
+    border-color: rgba(0,201,177,0.5);
+    box-shadow: 0 0 0 3px rgba(0,201,177,0.08);
+  }
+
+  .btn-submit {
+    background: var(--teal);
+    color: var(--navy);
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    width: 100%;
+    text-align: center;
+  }
+  .btn-submit:hover { background: var(--teal-dim); transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .form-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .form-success {
+    display: none;
+    background: var(--teal-glow);
+    border: 1px solid rgba(0,201,177,0.25);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .form-success .success-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .form-success h3 {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-success p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 700px) {
+    #hero-canvas { display: none; }
+    .hero-content { max-width: 100%; }
+    .form-row { flex-direction: column; }
+    .instructor-inner { grid-template-columns: 1fr; }
+    .instructor-avatar { width: 80px; height: 80px; font-size: 2rem; }
+    .module-header { padding: 1.25rem; }
+    .module-lessons { padding-left: 1.25rem; }
+    nav { padding: 1rem 4%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BlockIQ Academy</div>
+  <a href="#enroll" class="nav-cta">Enroll Free</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">BlockIQ Academy · Self-paced · 11 Lessons · Beginner friendly</div>
+    <h1>Understand crypto<br><span>before everyone else</span><br>already has.</h1>
+    <p class="hero-sub">A clear, honest, jargon-free introduction to cryptocurrency, blockchain technology, and the digital financial system — built for people starting from zero.</p>
+    <div class="hero-actions">
+      <a href="#enroll" class="btn-primary">Start learning free</a>
+      <a href="#curriculum" class="btn-ghost">See what's covered ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">11</div>
+        <div class="stat-label">Video lessons</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Modules</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">~70</div>
+        <div class="stat-label">Minutes total</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Prior knowledge needed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <span class="trust-label">Covers</span>
+  <div class="trust-items">
+    <span class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#00C9B1" stroke-width="1.5"/></svg>
+      Bitcoin
+    </span>
+    <span class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#00C9B1" stroke-width="1.5"/></svg>
+      Ethereum
+    </span>
+    <span class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#00C9B1" stroke-width="1.5"/></svg>
+      XRP Ledger
+    </span>
+    <span class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#00C9B1" stroke-width="1.5"/></svg>
+      Flare Network
+    </span>
+    <span class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#00C9B1" stroke-width="1.5"/></svg>
+      DeFi & NFTs
+    </span>
+    <span class="trust-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#00C9B1" stroke-width="1.5"/></svg>
+      Wallet Security
+    </span>
+  </div>
+</div>
+
+<!-- FOR WHO -->
+<section class="for-who">
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>Built for people who are curious,<br>not yet convinced.</h2>
+      <p>You've heard about crypto. Maybe you've been skeptical. BlockIQ Academy meets you exactly where you are — no jargon, no hype.</p>
+    </div>
+    <div class="who-grid">
+      <div class="who-card">
+        <div class="who-icon">🏦</div>
+        <h3>The financially curious</h3>
+        <p>You understand money and want to know how this new digital version of it actually works — without the hype.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🌍</div>
+        <h3>The internationally-minded</h3>
+        <p>You send or receive money across borders and want to understand faster, cheaper alternatives to wire transfers.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">📱</div>
+        <h3>The tech-adjacent</h3>
+        <p>You're comfortable with technology but haven't dug into blockchain. You want substance, not a crash course in hype.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🔐</div>
+        <h3>The cautious skeptic</h3>
+        <p>You've been burned by bad information before. This course is built on honest explanations — risks included.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="curriculum" id="curriculum">
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>What you'll learn</h2>
+      <p>Three modules. Eleven lessons. Every concept explained from first principles.</p>
+    </div>
+    <div class="modules">
+
+      <div class="module-item open">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">Module 1</span>
+          <span class="module-title">Understanding the Basics</span>
+          <span class="module-meta">4 lessons · ~20 min</span>
+        </div>
+        <div class="module-lessons">
+          <ul class="lesson-list">
+            <li>What is Money? The history and evolution of currency</li>
+            <li>Introduction to Cryptocurrency — digital vs. traditional, decentralization explained</li>
+            <li>Blockchain Technology — blocks, transactions, hashing made simple</li>
+            <li>Cryptography Basics — public keys, private keys, and digital signatures</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">Module 2</span>
+          <span class="module-title">Exploring the Ecosystem</span>
+          <span class="module-meta">4 lessons · ~24 min</span>
+        </div>
+        <div class="module-lessons">
+          <ul class="lesson-list">
+            <li>Types of Cryptocurrencies — Bitcoin, Ethereum, XRP, altcoins, stablecoins</li>
+            <li>Cryptocurrency Use Cases — payments, DeFi, dApps, NFTs</li>
+            <li>Cryptocurrency Wallets — hot vs. cold, custodial vs. non-custodial</li>
+            <li>Buying and Selling — exchanges, DEXs, basic trading concepts</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">Module 3</span>
+          <span class="module-title">Navigating the Crypto World</span>
+          <span class="module-meta">3 lessons · ~24 min</span>
+        </div>
+        <div class="module-lessons">
+          <ul class="lesson-list">
+            <li>Risks and Benefits — honest assessment of what crypto can and can't do</li>
+            <li>Security and Best Practices — passwords, 2FA, hardware wallets, scam awareness</li>
+            <li>The Future of Cryptocurrency — regulation, institutional adoption, Layer 2, Web3</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOMES -->
+<section class="outcomes">
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>What you walk away with</h2>
+      <p>Concrete knowledge you can use — not just vocabulary to drop at dinner parties.</p>
+    </div>
+    <div class="outcomes-grid">
+      <div class="outcome-item">
+        <div class="outcome-check">
+          <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#00C9B1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p>Explain how blockchain works to anyone — without losing them in jargon</p>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-check">
+          <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#00C9B1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p>Set up and secure your own cryptocurrency wallet with confidence</p>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-check">
+          <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#00C9B1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p>Distinguish between Bitcoin, Ethereum, XRP, and the broader altcoin landscape</p>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-check">
+          <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#00C9B1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p>Understand DeFi, NFTs, and dApps — what they actually are and why they matter</p>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-check">
+          <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#00C9B1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p>Recognize the most common scams and protect yourself from them</p>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-check">
+          <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#00C9B1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p>Make informed decisions about buying, storing, and using cryptocurrency responsibly</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTRUCTOR -->
+<section class="instructor">
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>Your instructor</h2>
+    </div>
+    <div class="instructor-inner">
+      <div class="instructor-avatar">👨🏾‍💻</div>
+      <div>
+        <div class="instructor-name">Kenny Robinson</div>
+        <div class="instructor-title">Founder, BlockIQ Academy · XRPL & Flare Specialist</div>
+        <p class="instructor-bio">
+          Kenny Robinson is the founder of BlockIQ Academy and brings a background in sales, finance, and technology to the world of blockchain education. After spending years in the financial industry — from real estate to mortgage processing — Kenny became fascinated by the promise of decentralized finance and the transformative potential of networks like the XRP Ledger and Flare.
+          <br><br>
+          BlockIQ Academy was built on a simple teaching philosophy: if you can't explain something clearly, you don't understand it well enough. Every lesson is honest, practical, and genuinely accessible to anyone starting from zero.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="newsletter-inner">
+    <h2>The BlockIQ Brief.</h2>
+    <p>Join the BlockIQ Academy newsletter — weekly breakdowns of crypto news, XRPL and Flare updates, and new lessons written in plain English. Always free.</p>
+
+    <div class="newsletter-perks">
+      <div class="perk"><div class="perk-dot"></div>Weekly crypto explainers — no hype, no price predictions</div>
+      <div class="perk"><div class="perk-dot"></div>XRPL and Flare Network updates as they happen</div>
+      <div class="perk"><div class="perk-dot"></div>Early access to new course modules and content</div>
+      <div class="perk"><div class="perk-dot"></div>Security alerts and scam warnings for the community</div>
+    </div>
+
+    <div id="signup-form-wrap">
+      <form class="signup-form" onsubmit="handleSignup(event)">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="fname">First name</label>
+            <input type="text" id="fname" name="fname" placeholder="Kenny" required autocomplete="given-name">
+          </div>
+          <div class="form-field">
+            <label for="lname">Last name</label>
+            <input type="text" id="lname" name="lname" placeholder="Robinson" autocomplete="family-name">
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <button type="submit" class="btn-submit" id="submit-btn">Subscribe — it's free</button>
+        <p class="form-note">No spam, ever. Unsubscribe in one click at any time. Your email stays private — it will never be shared or sold.</p>
+      </form>
+    </div>
+
+    <div class="form-success" id="form-success">
+      <div class="success-icon">✅</div>
+      <h3>You're in.</h3>
+      <p>Check your inbox for a welcome email. Your first issue arrives next week.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="enroll">
+  <h2>Start your BlockIQ journey today.</h2>
+  <p>No prior knowledge required. No fluff. Just clear, honest explanations from BlockIQ Academy — built for real beginners.</p>
+  <div class="price-display">
+    <div class="price-amount">Free</div>
+    <div class="price-note">Full course access · No credit card required</div>
+  </div>
+  <a href="#" class="btn-primary" style="font-size:1.1rem; padding: 1rem 2.5rem;">Enroll now — it's free</a>
+  <div class="cta-guarantee">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L9 5.5H13.5L9.75 8.5L11.25 13L7 10L2.75 13L4.25 8.5L0.5 5.5H5L7 1Z" stroke="#8A93B2" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    Self-paced · Watch on any device · No expiry
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BlockIQ Academy</div>
+  <p>© 2026 BlockIQ Academy LLC. All rights reserved.</p>
+</footer>
+
+<script>
+  // Newsletter signup
+  function handleSignup(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Subscribing…';
+
+    // Simulate submission (replace with your actual email provider endpoint)
+    setTimeout(() => {
+      document.getElementById('signup-form-wrap').style.display = 'none';
+      const success = document.getElementById('form-success');
+      success.style.display = 'block';
+    }, 1000);
+  }
+
+  // Module accordion
+  function toggleModule(header) {
+    const item = header.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.module-item').forEach(m => m.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Blockchain node canvas animation
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+    canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const W = () => canvas.offsetWidth;
+  const H = () => canvas.offsetHeight;
+
+  const TEAL = '#00C9B1';
+  const TEAL_DIM = 'rgba(0,201,177,0.25)';
+  const NODE_COLOR = 'rgba(0,201,177,0.7)';
+
+  // Generate nodes
+  const nodeCount = 22;
+  let nodes = [];
+
+  function initNodes() {
+    nodes = [];
+    for (let i = 0; i < nodeCount; i++) {
+      nodes.push({
+        x: Math.random() * W(),
+        y: Math.random() * H(),
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 2.5 + 1.5,
+        pulse: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+  initNodes();
+
+  // Packet animation
+  let packets = [];
+  let lastPacket = 0;
+
+  function spawnPacket() {
+    if (nodes.length < 2) return;
+    const from = Math.floor(Math.random() * nodes.length);
+    let to = Math.floor(Math.random() * nodes.length);
+    while (to === from) to = Math.floor(Math.random() * nodes.length);
+    packets.push({ from, to, t: 0, speed: 0.008 + Math.random() * 0.006 });
+  }
+
+  let lastTime = 0;
+  function animate(ts) {
+    const dt = ts - lastTime;
+    lastTime = ts;
+
+    ctx.clearRect(0, 0, W(), H());
+
+    // Update nodes
+    nodes.forEach(n => {
+      n.x += n.vx;
+      n.y += n.vy;
+      n.pulse += 0.02;
+      if (n.x < 0 || n.x > W()) n.vx *= -1;
+      if (n.y < 0 || n.y > H()) n.vy *= -1;
+    });
+
+    // Draw connections
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = 160;
+        if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * 0.18;
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(0,201,177,${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw packets
+    packets = packets.filter(p => p.t < 1);
+    packets.forEach(p => {
+      p.t += p.speed;
+      const from = nodes[p.from];
+      const to = nodes[p.to];
+      const x = from.x + (to.x - from.x) * p.t;
+      const y = from.y + (to.y - from.y) * p.t;
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = TEAL;
+      ctx.shadowColor = TEAL;
+      ctx.shadowBlur = 8;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+
+    // Spawn packets
+    if (ts - lastPacket > 700) {
+      spawnPacket();
+      lastPacket = ts;
+    }
+
+    // Draw nodes
+    nodes.forEach(n => {
+      const pulse = Math.sin(n.pulse) * 0.3 + 0.7;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r * pulse, 0, Math.PI * 2);
+      ctx.fillStyle = NODE_COLOR;
+      ctx.shadowColor = TEAL;
+      ctx.shadowBlur = 6;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
+</script>
+</body>
+</html>
